@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="05c1f1cd707f4961ac06ace2202beec4" Name="Diagram1" ZoomLevel="109">
+        <EntityTypeShape EntityType="Association_ManagmentModel.DetailsAssocition" Width="1.5" PointX="2.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.JobMember" Width="1.5" PointX="4.375" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.Job" Width="1.5" PointX="4" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.MeetingMember" Width="1.875" PointX="6.625" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.Meeting" Width="2.125" PointX="8" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.Member" Width="2.125" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.Protocol" Width="1.5" PointX="4.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Association_ManagmentModel.TypeMeeting" Width="1.5" PointX="6.75" PointY="8.625" IsExpanded="true" />
+        <AssociationConnector Association="Association_ManagmentModel.FK__JobMember__CodeJ__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="Association_ManagmentModel.FK__JobMember__CodeM__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="Association_ManagmentModel.FK__MeetingMe__CodeM__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="Association_ManagmentModel.FK__MeetingMe__CodeM__2E1BDC42" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

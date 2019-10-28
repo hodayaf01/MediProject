@@ -1,0 +1,624 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Association_ManagmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DetailsAssocition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="NameOfAsscition" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescriptionOfAsscition" Type="nvarchar" MaxLength="300" />
+          <Property Name="YearEstablished" Type="char" MaxLength="4" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobMember">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="bigint" Nullable="false" />
+          <Property Name="CodeMember" Type="bigint" Nullable="false" />
+          <Property Name="CodeJob" Type="bigint" Nullable="false" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+        </EntityType>
+        <EntityType Name="Jobs">
+          <Key>
+            <PropertyRef Name="CodeJob" />
+          </Key>
+          <Property Name="CodeJob" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameJob" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+        </EntityType>
+        <EntityType Name="MeetingMembers">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="CodeMeeting" Type="bigint" Nullable="false" />
+          <Property Name="CodeMember" Type="bigint" Nullable="false" />
+          <Property Name="Code" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Meetings">
+          <Key>
+            <PropertyRef Name="CodeMeeting" />
+          </Key>
+          <Property Name="CodeMeeting" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectMeeting" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MeetingDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+          <Property Name="MeetingDirector" Type="nvarchar" MaxLength="50" />
+          <Property Name="CodeTypeMeeting" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="codeMember" />
+          </Key>
+          <Property Name="codeMember" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameMember" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeMember" Type="bit" />
+          <Property Name="IdMember" Type="nchar" MaxLength="9" Nullable="false" />
+          <Property Name="AllowedSignature" Type="bit" Nullable="false" />
+          <Property Name="MailMember" Type="nvarchar" MaxLength="50" />
+          <Property Name="JoinDate" Type="datetime" Nullable="false" />
+          <Property Name="ExitDate" Type="datetime" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+        </EntityType>
+        <EntityType Name="Protocols">
+          <Key>
+            <PropertyRef Name="CodeProtocol" />
+          </Key>
+          <Property Name="CodeProtocol" Type="bigint" Nullable="false" />
+          <Property Name="CodeMeeting" Type="bigint" />
+          <Property Name="LinkProtocol" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DeleteRow" Type="bit" />
+          <Property Name="LinkSignedProtocol" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TypeMeeting">
+          <Key>
+            <PropertyRef Name="CodeType" />
+          </Key>
+          <Property Name="CodeType" Type="bigint" Nullable="false" />
+          <Property Name="NameType" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumOfMembers" Type="int" />
+        </EntityType>
+        <Association Name="FK__JobMember__CodeJ__38996AB5">
+          <End Role="Jobs" Type="Self.Jobs" Multiplicity="1" />
+          <End Role="JobMember" Type="Self.JobMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="CodeJob" />
+            </Principal>
+            <Dependent Role="JobMember">
+              <PropertyRef Name="CodeJob" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JobMember__CodeM__3A81B327">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="JobMember" Type="Self.JobMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="codeMember" />
+            </Principal>
+            <Dependent Role="JobMember">
+              <PropertyRef Name="CodeMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MeetingMe__CodeM__2D27B809">
+          <End Role="Meetings" Type="Self.Meetings" Multiplicity="1" />
+          <End Role="MeetingMembers" Type="Self.MeetingMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meetings">
+              <PropertyRef Name="CodeMeeting" />
+            </Principal>
+            <Dependent Role="MeetingMembers">
+              <PropertyRef Name="CodeMeeting" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MeetingMe__CodeM__2E1BDC42">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="MeetingMembers" Type="Self.MeetingMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="codeMember" />
+            </Principal>
+            <Dependent Role="MeetingMembers">
+              <PropertyRef Name="CodeMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="JobMembersSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodeMember" Type="int" Mode="In" />
+          <Parameter Name="CodeJob" Type="bigint" Mode="In" />
+          <Parameter Name="DateStart" Type="datetime" Mode="In" />
+          <Parameter Name="DateEnd" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MeetingsSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codeMember" Type="int" Mode="In" />
+          <Parameter Name="Subject" Type="varchar(max)" Mode="In" />
+          <Parameter Name="MeetingDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MembersSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="id" Type="varchar(max)" Mode="In" />
+          <Parameter Name="typeMember" Type="bit" Mode="In" />
+          <Parameter Name="allowedSignature" Type="bit" Mode="In" />
+          <Parameter Name="mailMember" Type="varchar(max)" Mode="In" />
+          <Parameter Name="joindate" Type="datetime" Mode="In" />
+          <Parameter Name="exitdate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SelectProtocolsByCriteria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MonthMeeting" Type="int" Mode="In" />
+          <Parameter Name="DateMeeting" Type="datetime" Mode="In" />
+          <Parameter Name="SubjectMeeting" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="MeetingDirector" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="Association_ManagmentModelStoreContainer">
+          <EntitySet Name="DetailsAssocition" EntityType="Self.DetailsAssocition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobMember" EntityType="Self.JobMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeetingMembers" EntityType="Self.MeetingMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meetings" EntityType="Self.Meetings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Protocols" EntityType="Self.Protocols" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeMeeting" EntityType="Self.TypeMeeting" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__JobMember__CodeJ__38996AB5" Association="Self.FK__JobMember__CodeJ__38996AB5">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobMember" EntitySet="JobMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JobMember__CodeM__3A81B327" Association="Self.FK__JobMember__CodeM__3A81B327">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="JobMember" EntitySet="JobMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MeetingMe__CodeM__2D27B809" Association="Self.FK__MeetingMe__CodeM__2D27B809">
+            <End Role="Meetings" EntitySet="Meetings" />
+            <End Role="MeetingMembers" EntitySet="MeetingMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MeetingMe__CodeM__2E1BDC42" Association="Self.FK__MeetingMe__CodeM__2E1BDC42">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="MeetingMembers" EntitySet="MeetingMembers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Association_ManagmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DetailsAssocition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="NameOfAsscition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescriptionOfAsscition" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="YearEstablished" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobMember">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int64" Nullable="false" />
+          <Property Name="CodeMember" Type="Int64" Nullable="false" />
+          <Property Name="CodeJob" Type="Int64" Nullable="false" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <NavigationProperty Name="Job" Relationship="Self.FK__JobMember__CodeJ__38996AB5" FromRole="JobMember" ToRole="Jobs" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__JobMember__CodeM__3A81B327" FromRole="JobMember" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="CodeJob" />
+          </Key>
+          <Property Name="CodeJob" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameJob" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <NavigationProperty Name="JobMembers" Relationship="Self.FK__JobMember__CodeJ__38996AB5" FromRole="Jobs" ToRole="JobMember" />
+        </EntityType>
+        <EntityType Name="MeetingMember">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="CodeMeeting" Type="Int64" Nullable="false" />
+          <Property Name="CodeMember" Type="Int64" Nullable="false" />
+          <Property Name="Code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Meeting" Relationship="Self.FK__MeetingMe__CodeM__2D27B809" FromRole="MeetingMembers" ToRole="Meetings" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__MeetingMe__CodeM__2E1BDC42" FromRole="MeetingMembers" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="CodeMeeting" />
+          </Key>
+          <Property Name="CodeMeeting" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectMeeting" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MeetingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <Property Name="MeetingDirector" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodeTypeMeeting" Type="Int64" />
+          <NavigationProperty Name="MeetingMembers" Relationship="Self.FK__MeetingMe__CodeM__2D27B809" FromRole="Meetings" ToRole="MeetingMembers" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="codeMember" />
+          </Key>
+          <Property Name="codeMember" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeMember" Type="Boolean" />
+          <Property Name="IdMember" Type="String" MaxLength="9" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="AllowedSignature" Type="Boolean" Nullable="false" />
+          <Property Name="MailMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExitDate" Type="DateTime" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <NavigationProperty Name="JobMembers" Relationship="Self.FK__JobMember__CodeM__3A81B327" FromRole="Members" ToRole="JobMember" />
+          <NavigationProperty Name="MeetingMembers" Relationship="Self.FK__MeetingMe__CodeM__2E1BDC42" FromRole="Members" ToRole="MeetingMembers" />
+        </EntityType>
+        <EntityType Name="Protocol">
+          <Key>
+            <PropertyRef Name="CodeProtocol" />
+          </Key>
+          <Property Name="CodeProtocol" Type="Int64" Nullable="false" />
+          <Property Name="CodeMeeting" Type="Int64" />
+          <Property Name="LinkProtocol" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DeleteRow" Type="Boolean" />
+          <Property Name="LinkSignedProtocol" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TypeMeeting">
+          <Key>
+            <PropertyRef Name="CodeType" />
+          </Key>
+          <Property Name="CodeType" Type="Int64" Nullable="false" />
+          <Property Name="NameType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumOfMembers" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__JobMember__CodeJ__38996AB5">
+          <End Role="Jobs" Type="Self.Job" Multiplicity="1" />
+          <End Role="JobMember" Type="Self.JobMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="CodeJob" />
+            </Principal>
+            <Dependent Role="JobMember">
+              <PropertyRef Name="CodeJob" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__JobMember__CodeM__3A81B327">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="JobMember" Type="Self.JobMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="codeMember" />
+            </Principal>
+            <Dependent Role="JobMember">
+              <PropertyRef Name="CodeMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MeetingMe__CodeM__2D27B809">
+          <End Role="Meetings" Type="Self.Meeting" Multiplicity="1" />
+          <End Role="MeetingMembers" Type="Self.MeetingMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meetings">
+              <PropertyRef Name="CodeMeeting" />
+            </Principal>
+            <Dependent Role="MeetingMembers">
+              <PropertyRef Name="CodeMeeting" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MeetingMe__CodeM__2E1BDC42">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="MeetingMembers" Type="Self.MeetingMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="codeMember" />
+            </Principal>
+            <Dependent Role="MeetingMembers">
+              <PropertyRef Name="CodeMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Association_ManagmentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DetailsAssocitions" EntityType="Self.DetailsAssocition" />
+          <EntitySet Name="JobMembers" EntityType="Self.JobMember" />
+          <EntitySet Name="Jobs" EntityType="Self.Job" />
+          <EntitySet Name="MeetingMembers" EntityType="Self.MeetingMember" />
+          <EntitySet Name="Meetings" EntityType="Self.Meeting" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Protocols" EntityType="Self.Protocol" />
+          <EntitySet Name="TypeMeetings" EntityType="Self.TypeMeeting" />
+          <AssociationSet Name="FK__JobMember__CodeJ__38996AB5" Association="Self.FK__JobMember__CodeJ__38996AB5">
+            <End Role="Jobs" EntitySet="Jobs" />
+            <End Role="JobMember" EntitySet="JobMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__JobMember__CodeM__3A81B327" Association="Self.FK__JobMember__CodeM__3A81B327">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="JobMember" EntitySet="JobMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MeetingMe__CodeM__2D27B809" Association="Self.FK__MeetingMe__CodeM__2D27B809">
+            <End Role="Meetings" EntitySet="Meetings" />
+            <End Role="MeetingMembers" EntitySet="MeetingMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MeetingMe__CodeM__2E1BDC42" Association="Self.FK__MeetingMe__CodeM__2E1BDC42">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="MeetingMembers" EntitySet="MeetingMembers" />
+          </AssociationSet>
+          <FunctionImport Name="JobMembersSearch" ReturnType="Collection(Association_ManagmentModel.JobMembersSearch_Result)">
+            <Parameter Name="CodeMember" Mode="In" Type="Int32" />
+            <Parameter Name="CodeJob" Mode="In" Type="Int64" />
+            <Parameter Name="DateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="DateEnd" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MeetingsSearch" ReturnType="Collection(Association_ManagmentModel.MeetingsSearch_Result)">
+            <Parameter Name="codeMember" Mode="In" Type="Int32" />
+            <Parameter Name="Subject" Mode="In" Type="String" />
+            <Parameter Name="MeetingDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MembersSearch" ReturnType="Collection(Association_ManagmentModel.MembersSearch_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="String" />
+            <Parameter Name="typeMember" Mode="In" Type="Boolean" />
+            <Parameter Name="allowedSignature" Mode="In" Type="Boolean" />
+            <Parameter Name="mailMember" Mode="In" Type="String" />
+            <Parameter Name="joindate" Mode="In" Type="DateTime" />
+            <Parameter Name="exitdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SelectProtocolsByCriteria" ReturnType="Collection(Association_ManagmentModel.SelectProtocolsByCriteria_Result)">
+            <Parameter Name="MonthMeeting" Mode="In" Type="Int32" />
+            <Parameter Name="DateMeeting" Mode="In" Type="DateTime" />
+            <Parameter Name="SubjectMeeting" Mode="In" Type="String" />
+            <Parameter Name="MeetingDirector" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="JobMembersSearch_Result">
+          <Property Type="Int64" Name="Code" Nullable="false" />
+          <Property Type="Int64" Name="CodeMember" Nullable="false" />
+          <Property Type="Int64" Name="CodeJob" Nullable="false" />
+          <Property Type="DateTime" Name="DateStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Note" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="DeleteRow" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MeetingsSearch_Result">
+          <Property Type="Int64" Name="CodeMeeting" Nullable="false" />
+          <Property Type="String" Name="SubjectMeeting" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="MeetingDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="DeleteRow" Nullable="true" />
+          <Property Type="String" Name="MeetingDirector" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="CodeTypeMeeting" Nullable="true" />
+          <Property Type="String" Name="NameType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="NumOfMembers" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MembersSearch_Result">
+          <Property Type="Int64" Name="codeMember" Nullable="false" />
+          <Property Type="String" Name="NameMember" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="TypeMember" Nullable="true" />
+          <Property Type="String" Name="IdMember" Nullable="false" MaxLength="9" />
+          <Property Type="Boolean" Name="AllowedSignature" Nullable="false" />
+          <Property Type="String" Name="MailMember" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="JoinDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ExitDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="DeleteRow" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SelectProtocolsByCriteria_Result">
+          <Property Type="Int64" Name="CodeMeeting" Nullable="false" />
+          <Property Type="String" Name="SubjectMeeting" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="MeetingDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="DeleteRow" Nullable="true" />
+          <Property Type="String" Name="MeetingDirector" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="CodeTypeMeeting" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Association_ManagmentModelStoreContainer" CdmEntityContainer="Association_ManagmentEntities">
+          <EntitySetMapping Name="DetailsAssocitions">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.DetailsAssocition">
+              <MappingFragment StoreEntitySet="DetailsAssocition">
+                <ScalarProperty Name="NameOfAsscition" ColumnName="NameOfAsscition" />
+                <ScalarProperty Name="DescriptionOfAsscition" ColumnName="DescriptionOfAsscition" />
+                <ScalarProperty Name="YearEstablished" ColumnName="YearEstablished" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobMembers">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.JobMember">
+              <MappingFragment StoreEntitySet="JobMember">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CodeMember" ColumnName="CodeMember" />
+                <ScalarProperty Name="CodeJob" ColumnName="CodeJob" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.Job">
+              <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="CodeJob" ColumnName="CodeJob" />
+                <ScalarProperty Name="NameJob" ColumnName="NameJob" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingMembers">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.MeetingMember">
+              <MappingFragment StoreEntitySet="MeetingMembers">
+                <ScalarProperty Name="CodeMeeting" ColumnName="CodeMeeting" />
+                <ScalarProperty Name="CodeMember" ColumnName="CodeMember" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meetings">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.Meeting">
+              <MappingFragment StoreEntitySet="Meetings">
+                <ScalarProperty Name="CodeMeeting" ColumnName="CodeMeeting" />
+                <ScalarProperty Name="SubjectMeeting" ColumnName="SubjectMeeting" />
+                <ScalarProperty Name="MeetingDate" ColumnName="MeetingDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+                <ScalarProperty Name="MeetingDirector" ColumnName="MeetingDirector" />
+                <ScalarProperty Name="CodeTypeMeeting" ColumnName="CodeTypeMeeting" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.Member">
+              <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="codeMember" ColumnName="codeMember" />
+                <ScalarProperty Name="NameMember" ColumnName="NameMember" />
+                <ScalarProperty Name="TypeMember" ColumnName="TypeMember" />
+                <ScalarProperty Name="IdMember" ColumnName="IdMember" />
+                <ScalarProperty Name="AllowedSignature" ColumnName="AllowedSignature" />
+                <ScalarProperty Name="MailMember" ColumnName="MailMember" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="ExitDate" ColumnName="ExitDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Protocols">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.Protocol">
+              <MappingFragment StoreEntitySet="Protocols">
+                <ScalarProperty Name="CodeProtocol" ColumnName="CodeProtocol" />
+                <ScalarProperty Name="CodeMeeting" ColumnName="CodeMeeting" />
+                <ScalarProperty Name="LinkProtocol" ColumnName="LinkProtocol" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+                <ScalarProperty Name="LinkSignedProtocol" ColumnName="LinkSignedProtocol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeMeetings">
+            <EntityTypeMapping TypeName="Association_ManagmentModel.TypeMeeting">
+              <MappingFragment StoreEntitySet="TypeMeeting">
+                <ScalarProperty Name="CodeType" ColumnName="CodeType" />
+                <ScalarProperty Name="NameType" ColumnName="NameType" />
+                <ScalarProperty Name="NumOfMembers" ColumnName="NumOfMembers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="JobMembersSearch" FunctionName="Association_ManagmentModel.Store.JobMembersSearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Association_ManagmentModel.JobMembersSearch_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CodeMember" ColumnName="CodeMember" />
+                <ScalarProperty Name="CodeJob" ColumnName="CodeJob" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MeetingsSearch" FunctionName="Association_ManagmentModel.Store.MeetingsSearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Association_ManagmentModel.MeetingsSearch_Result">
+                <ScalarProperty Name="CodeMeeting" ColumnName="CodeMeeting" />
+                <ScalarProperty Name="SubjectMeeting" ColumnName="SubjectMeeting" />
+                <ScalarProperty Name="MeetingDate" ColumnName="MeetingDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+                <ScalarProperty Name="MeetingDirector" ColumnName="MeetingDirector" />
+                <ScalarProperty Name="CodeTypeMeeting" ColumnName="CodeTypeMeeting" />
+                <ScalarProperty Name="NameType" ColumnName="NameType" />
+                <ScalarProperty Name="NumOfMembers" ColumnName="NumOfMembers" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MembersSearch" FunctionName="Association_ManagmentModel.Store.MembersSearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Association_ManagmentModel.MembersSearch_Result">
+                <ScalarProperty Name="codeMember" ColumnName="codeMember" />
+                <ScalarProperty Name="NameMember" ColumnName="NameMember" />
+                <ScalarProperty Name="TypeMember" ColumnName="TypeMember" />
+                <ScalarProperty Name="IdMember" ColumnName="IdMember" />
+                <ScalarProperty Name="AllowedSignature" ColumnName="AllowedSignature" />
+                <ScalarProperty Name="MailMember" ColumnName="MailMember" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="ExitDate" ColumnName="ExitDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectProtocolsByCriteria" FunctionName="Association_ManagmentModel.Store.SelectProtocolsByCriteria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Association_ManagmentModel.SelectProtocolsByCriteria_Result">
+                <ScalarProperty Name="CodeMeeting" ColumnName="CodeMeeting" />
+                <ScalarProperty Name="SubjectMeeting" ColumnName="SubjectMeeting" />
+                <ScalarProperty Name="MeetingDate" ColumnName="MeetingDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DeleteRow" ColumnName="DeleteRow" />
+                <ScalarProperty Name="MeetingDirector" ColumnName="MeetingDirector" />
+                <ScalarProperty Name="CodeTypeMeeting" ColumnName="CodeTypeMeeting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
